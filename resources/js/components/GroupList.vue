@@ -65,7 +65,7 @@
     },
     goToRegisterGroup() {
       // Redireciona para a tela de cadastro
-      window.location.href = '/register'; // A rota do cadastro
+      window.location.href = '/newgroup'; // A rota do cadastro
     },
     }
   };

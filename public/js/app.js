@@ -25064,7 +25064,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     },
     goToRegisterGroup: function goToRegisterGroup() {
       // Redireciona para a tela de cadastro
-      window.location.href = '/register'; // A rota do cadastro
+      window.location.href = '/newgroup'; // A rota do cadastro
     }
   }
 });
@@ -25265,17 +25265,11 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     };
   },
   mounted: function mounted() {
-    var _this = this;
-    // Faz a requisição para a API assim que o componente é montado
-    axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/users').then(function (response) {
-      _this.users = response.data; // Armazena os dados dos usuários
-    })["catch"](function (error) {
-      console.error("Erro ao buscar usuários:", error);
-    });
+    this.fetchUsers();
   },
   methods: {
     fetchUsers: function fetchUsers() {
-      var _this2 = this;
+      var _this = this;
       return _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
         var response;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
@@ -25286,7 +25280,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               return axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/users');
             case 3:
               response = _context.sent;
-              _this2.users = response.data;
+              _this.users = response.data;
               _context.next = 10;
               break;
             case 7:
@@ -25301,7 +25295,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       }))();
     },
     deleteUser: function deleteUser(userId) {
-      var _this3 = this;
+      var _this2 = this;
       return _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
@@ -25314,7 +25308,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               _context2.next = 4;
               return axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"]("/api/users/".concat(userId));
             case 4:
-              _this3.fetchUsers(); // Atualiza a lista após a deleção
+              _this2.fetchUsers(); // Atualiza a lista após a deleção
               alert('Usuário deletado com sucesso!');
               _context2.next = 12;
               break;
@@ -25332,7 +25326,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     },
     goToRegister: function goToRegister() {
       // Redireciona para a tela de cadastro
-      window.location.href = '/new-user'; // A rota do cadastro
+      window.location.href = '/newuser'; // A rota do cadastro
     },
     goToGroupList: function goToGroupList() {
       window.location.href = '/groups'; // Direciona para a rota de cadastro de grupo

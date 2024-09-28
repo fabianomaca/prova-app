@@ -22,12 +22,12 @@
       };
     },
     async created() {
-      const response = await axios.get('/api/permission-groups');
+      const response = await axios.get('/api/groups');
       this.permissionGroups = response.data;
     },
     methods: {
       async deleteGroup(id) {
-        await axios.delete(`/api/permission-groups/${id}`);
+        await axios.delete(`/api/groups/${id}`);
         this.permissionGroups = this.permissionGroups.filter(group => group.id !== id);
       }
     }

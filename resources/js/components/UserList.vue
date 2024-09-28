@@ -40,14 +40,7 @@
       };
     },
     mounted() {
-      // Faz a requisição para a API assim que o componente é montado
-      axios.get('/api/users')
-        .then(response => {
-          this.users = response.data; // Armazena os dados dos usuários
-        })
-        .catch(error => {
-          console.error("Erro ao buscar usuários:", error);
-        });
+    this.fetchUsers();
     },
   methods: {
     async fetchUsers() {
@@ -72,7 +65,7 @@
     },
     goToRegister() {
       // Redireciona para a tela de cadastro
-      window.location.href = '/new-user'; // A rota do cadastro
+      window.location.href = '/newuser'; // A rota do cadastro
     },
     goToGroupList() {
       window.location.href = '/groups'; // Direciona para a rota de cadastro de grupo
