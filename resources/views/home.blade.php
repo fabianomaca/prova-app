@@ -1,0 +1,26 @@
+<!-- resources/views/home.blade.php -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+
+<body>
+    <div id="app">
+        <!-- Conteúdo da tela Home -->
+        <h1>Bem-vindo à Home</h1>
+        <p>Esta é a tela inicial de nosso sistema de gerenciamento de usuários.</p>
+        <p>Prova App - Fabiano Carloto.</p>
+
+        <!-- Botão para ir para a página de listagem de usuários -->
+        <button @click="goToUsers">Ver Lista de Usuários</button>
+    </div>
+
+    <!-- Script para carregar o Vue -->
+    <script src="{{ mix('js/app.js') }}"></script>
+</body>
+
+</html>
