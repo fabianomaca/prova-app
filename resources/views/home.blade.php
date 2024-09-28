@@ -9,14 +9,14 @@
 </head>
 
 <body>
-    <div id="app">
+    <div class="container mt-5" id="app">
         <!-- Conteúdo da tela Home -->
         <h1>Bem-vindo à Home</h1>
         <p>Esta é a tela inicial de nosso sistema de gerenciamento de usuários.</p>
         <p>Prova App - Fabiano Carloto.</p>
 
         <!-- Botão para ir para a página de listagem de usuários -->
-        <button @click="goToUsers">Ver Lista de Usuários</button>
+        <button class="btn btn-primary" @click="goToUsers">Ver Lista de Usuários</button>
     </div>
 
     <!-- Script para carregar o Vue -->

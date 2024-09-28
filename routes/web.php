@@ -27,6 +27,6 @@ Route::get('/groups', function () {
 });
 
 // Rota para exibir o formulário de cadastro de permissão
-Route::get('/newgroups', function () {
-    return view('newgroups');
+Route::get('/newgroup', function () {
+    return view('newgroup');
 });

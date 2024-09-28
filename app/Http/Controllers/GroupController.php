@@ -117,4 +117,10 @@ class GroupController extends Controller
 
         return response()->json(['message' => 'Grupo deletado com sucesso.'], 204);
     }
+
+    public function getAllGroups()
+    {
+        $groups = Group::all(); // Busca todos os grupos
+        return response()->json($groups); // Retorna em formato JSON
+    }
 }

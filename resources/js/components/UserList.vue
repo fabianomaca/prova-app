@@ -22,10 +22,14 @@
           </tr>
         </tbody>
       </table>
-
+      <br />
+      <div class="form-group">
       <!-- Botão para cadastrar um novo usuário -->
     <button class="btn btn-primary" @click="goToRegister">Cadastrar Novo Usuário</button>
+    <br />
+      <br />
     <button class="btn btn-primary" @click="goToGroupList">Listar Grupo de Permissão</button>
+  </div>
     </div>
   </template>
   
@@ -48,6 +52,7 @@
         const response = await axios.get('/api/users');
         this.users = response.data;
       } catch (error) {
+        alert('Erro ao criadar um usário!');
         console.error('Erro ao buscar usuários:', error);
       }
     },
@@ -58,6 +63,7 @@
           this.fetchUsers(); // Atualiza a lista após a deleção
           alert('Usuário deletado com sucesso!');
         } catch (error) {
+          alert('Erro ao deletar usuário!');
           console.error('Erro ao deletar usuário:', error);
           alert('Erro ao deletar usuário.');
         }

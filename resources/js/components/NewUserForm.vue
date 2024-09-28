@@ -1,76 +1,98 @@
 <template>
-    <div class="container mt-5">
-      <h1>Cadastro de Usuário</h1>
-      <form @submit.prevent="registerUser">
-        <div class="form-group">
-          <label for="name">Nome:</label>
-          <input type="text" v-model="form.name" id="name" required>
-        </div>
-  
-        <div class="form-group">
-          <label for="email">Email:</label>
-          <input type="email" v-model="form.email" id="email" required>
-        </div>
-  
-        <div class="form-group">
-          <label for="password">Senha:</label>
-          <input type="password" v-model="form.password" id="password" required>
-        </div>
-  
-        <button class="btn btn-primary" type="submit">Cadastrar</button>
-        <p> </p>
-        <!-- Botão para ir para a página de listagem de usuários -->
-        <button @click="goToUsers">Voltar para Lista de Usuários</button>
-      </form>
-  
-      <!-- Exibe mensagem de sucesso ou erro -->
-      <p v-if="successMessage"  class="text-success">{{ successMessage }}</p>
-      <p v-if="errorMessage" class="text-danger">{{ errorMessage }}</p>
-    </div>
-  </template>
-  
-  <script>
-  import axios from 'axios';
-  
-  export default {
-    data() {
-      return {
-        form: {
-          name: '',
-          email: '',
-          password: ''
-        },
-        successMessage: '',
-        errorMessage: ''
-      };
+  <div class="container mt-5">
+    <h1>Cadastro de Novo Usuário</h1>
+    <form @submit.prevent="submitForm">
+      <div class="form-group">
+        <label for="name">Nome</label>
+        <input type="text" class="form-control" v-model="name" id="name" required />
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" class="form-control" v-model="email" id="email" required />
+      </div>
+
+      <div class="form-group">
+        <label for="password">Senha</label>
+        <input type="password" class="form-control" v-model="password" id="password" required />
+      </div>
+
+      <div class="form-group">
+        <label for="group">Grupo</label>
+        <select class="form-control" v-model="selectedGroup" id="group" required>
+          <option v-for="group in groups" :key="group.id" :value="group.id">
+            {{ group.name }}
+          </option>
+        </select>
+      </div>
+      <br />
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary">Cadastrar</button>
+        <br />
+        <br />
+        <button class="btn btn-primary" @click="goToUsers">Voltar para Lista de Usuários</button>
+      </div>
+    </form>
+  </div>
+</template>
+
+<script>
+import axios from 'axios';
+
+export default {
+  data() {
+    return {
+      name: '',
+      email: '',
+      password: '',
+      selectedGroup: null,
+      groups: [], // Armazena os grupos que serão carregados da API
+    };
+  },
+  created() {
+    this.loadGroups();
+  },
+  methods: {
+    // Carrega os grupos da API
+    loadGroups() {
+      axios.get('/api/groups')
+        .then(response => {
+          this.groups = response.data;
+        })
+        .catch(error => {
+          console.error('Erro ao carregar grupos:', error);
+        });
     },
-    methods: {
-      async registerUser() {
-        try {
-          // Faz a requisição para a API Laravel
-          const response = await axios.post('/api/register', this.form);
-          // Define a mensagem de sucesso
-          this.successMessage = response.data.message;
-          this.errorMessage = '';
-          // Limpa o formulário
-          this.form.name = '';
-          this.form.email = '';
-          this.form.password = '';
-        } catch (error) {
-          // Se houver erro, exibe a mensagem de erro
-          if (error.response && error.response.data) {
-            this.errorMessage = Object.values(error.response.data).join(', ');
-          } else {
-            this.errorMessage = 'Erro ao cadastrar o usuário.';
-          }
-          this.successMessage = '';
-        }
-      }
+    // Enviar os dados do formulário
+    submitForm() {
+      const userData = {
+        name: this.name,
+        email: this.email,
+        password: this.password,
+        group_id: this.selectedGroup
+      };
+
+      axios.post('/api/newuser', userData)
+        .then(response => {
+          alert('Usuário criado com sucesso!');
+          this.resetForm();
+        })
+        .catch(error => {
+          alert('Erro ao criadar um usário!');
+          console.error('Erro ao criar usuário:', error);
+        });
+    },
+    // Resetar o formulário após o envio
+    resetForm() {
+      this.name = '';
+      this.email = '';
+      this.password = '';
+      this.selectedGroup = null;
     }
-  };
-  </script>
-  
-  <style scoped>
-  
-  </style>
-  
+  }
+};
+</script>
+
+<style scoped>
+/* Estilos para o formulário */
+</style>

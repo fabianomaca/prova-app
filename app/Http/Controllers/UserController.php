@@ -5,6 +5,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
+
 class UserController extends Controller
 {
     // Exibir lista de usuários
@@ -16,21 +17,35 @@ class UserController extends Controller
 
     // Criar um novo usuário
     public function store(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8',
-        ]);
+{
+    // Validação dos dados
+    $validatedData = $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|string|email|max:255|unique:users',
+        'password' => 'required|string|min:8',
+        'permission_id' => 'required|exists:groups,id',
+    ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
-
-        return response()->json($user, 201); // Retorna 201 Created
+    // Verifica se o email já existe
+    $existingUser = User::where('email', $request->email)->first();
+    if ($existingUser) {
+        return response()->json([
+            'message' => 'Este e-mail já está em uso. Por favor, escolha outro.'
+        ], 400);
     }
+
+    // Criar o usuário
+    $user = User::create([
+        'name' => $validatedData['name'],
+        'email' => $validatedData['email'],
+        'password' => Hash::make($validatedData['password']),
+        'permission_id' => $validatedData['group_id'],
+    ]);
+
+    // Retornar uma resposta JSON
+    return response()->json(['message' => 'Usuário criado com sucesso!', 'user' => $user], 201);
+}
+
 
     // Mostrar um único usuário
     public function show($id)
@@ -54,6 +69,7 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $id,
             'password' => 'nullable|string|min:8',
+            'permission_id' => 'required|exists:groups,id',
         ]);
 
         $user->name = $request->name;

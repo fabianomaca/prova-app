@@ -13,6 +13,7 @@ import NewGroupForm from './components/NewGroupForm.vue';
 
 import 'bootstrap/dist/css/bootstrap.min.css'; // Importa o CSS do Bootstrap
 import 'bootstrap'; // Importa o JavaScript do Bootstrap
+import 'jquery';
 
 // Cria a instância do Vue
 const app = createApp({});
@@ -26,7 +27,7 @@ app.component('group-list', GroupList);
 
 app.component('new-user-form', NewUserForm);
 
-app.component('new-group-form', NewGroupForm);
+app.component('newgroup-form', NewGroupForm);
 
 // Adiciona o método para navegação
 app.mixin({
