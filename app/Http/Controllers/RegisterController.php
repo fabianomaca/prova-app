@@ -19,10 +19,10 @@ class RegisterController extends Controller
     {
         // Validação dos dados
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'name' => 'required|string|max:200',
+            'email' => 'required|string|email|max:100|unique:users',
             'password' => 'required|string|min:8|confirmed',
-            'permission_group_id' => 'required|exists:permission_groups,id', // ID do grupo de permissão deve existir
+            'permission_group_id' => 'required|exists:groups,idGroup', // ID do grupo de permissão deve existir
         ]);
 
         // Retornar erro de validação se falhar

@@ -69,7 +69,7 @@ export default {
         name: this.name,
         email: this.email,
         password: this.password,
-        group_id: this.selectedGroup
+        permission_group_id: this.selectedGroup
       };
 
       axios.post('/api/newuser', userData)

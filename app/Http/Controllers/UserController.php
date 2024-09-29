@@ -23,7 +23,7 @@ class UserController extends Controller
         'name' => 'required|string|max:255',
         'email' => 'required|string|email|max:255|unique:users',
         'password' => 'required|string|min:8',
-        'permission_id' => 'required|exists:groups,id',
+        'permission_group_id' => 'required|exists:groups,id',
     ]);
 
     // Verifica se o email já existe
@@ -39,7 +39,7 @@ class UserController extends Controller
         'name' => $validatedData['name'],
         'email' => $validatedData['email'],
         'password' => Hash::make($validatedData['password']),
-        'permission_id' => $validatedData['group_id'],
+        'permission_group_id' => $validatedData['permission_group_id'],
     ]);
 
     // Retornar uma resposta JSON
@@ -69,7 +69,7 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $id,
             'password' => 'nullable|string|min:8',
-            'permission_id' => 'required|exists:groups,id',
+            'permission_group_id' => 'required|exists:groups,id',
         ]);
 
         $user->name = $request->name;
@@ -77,6 +77,7 @@ class UserController extends Controller
         if ($request->password) {
             $user->password = Hash::make($request->password);
         }
+        $user->permission_group_id = $request->permission_group_id;
         $user->save();
 
         return response()->json($user);

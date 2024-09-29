@@ -6,21 +6,20 @@ use App\Http\Controllers\GroupController;
 use Illuminate\Support\Facades\Route;
 
 
-// Rota da API para pegar os dados dos usuários (essa já deve existir)
+// Rota da API para pegar os dados dos usuários
 Route::get('/users', [UserController::class, 'index']);
-
-// Rota POST para cadastrar o usuário
 Route::post('/newuser', [UserController::class, 'store']);
+Route::get('/users/{id}', [UserController::class, 'show']);
+Route::put('/users/{id}', [UserController::class, 'update']);
+Route::delete('/users/{id}', [UserController::class, 'destroy']);
 
-// Adicione a rota para deletar o usuário
-Route::delete('/newuser/{id}', [UserController::class, 'destroy']);
 
 
-//Rotas para grupos
+//Rota da API para pegar os dados dos grupos
 Route::get('/groups', [GroupController::class, 'index']);
 Route::post('/newgroup', [GroupController::class, 'store']);
-Route::get('/newgroup/{id}', [GroupController::class, 'show']);
-Route::put('/newgroup/{id}', [GroupController::class, 'update']);
-Route::delete('/newgroup/{id}', [GroupController::class, 'destroy']);
+Route::get('/group/{id}', [GroupController::class, 'show']);
+Route::put('/group/{id}', [GroupController::class, 'update']);
+Route::delete('/group/{id}', [GroupController::class, 'destroy']);
 
 Route::get('/groups', [GroupController::class, 'getAllGroups']);

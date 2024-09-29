@@ -1,5 +1,5 @@
 // resources/js/app.js
-import './bootstrap';
+
 
 import { createApp } from 'vue';
 
@@ -10,10 +10,11 @@ import NewUserForm from './components/NewUserForm.vue';
 import GroupList from './components/GroupList.vue';
 import NewGroupForm from './components/NewGroupForm.vue';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
-import 'bootstrap/dist/css/bootstrap.min.css'; // Importa o CSS do Bootstrap
-import 'bootstrap'; // Importa o JavaScript do Bootstrap
-import 'jquery';
+
+
 
 // Cria a instância do Vue
 const app = createApp({});

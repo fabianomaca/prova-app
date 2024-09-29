@@ -81,7 +81,7 @@ class GroupController extends Controller
 
         // Validação dos dados
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:200',
             'description' => 'nullable|string|max:500',
         ]);
 

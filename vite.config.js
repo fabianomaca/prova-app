@@ -11,6 +11,12 @@ export default defineConfig({
 		}),
 	],
 
+	define: {
+		__VUE_OPTIONS_API__: true, // Ativa a API Options do Vue
+		__VUE_PROD_DEVTOOLS__: false, // Desativa devtools em produção
+		__VUE_PROD_HYDRATION_MISMATCH_DETAILS__: true // Define a flag específica
+	 },
+
 	resolve: {
 		alias: {
 			vue: 'vue/dist/vue.ems-bundler.js'

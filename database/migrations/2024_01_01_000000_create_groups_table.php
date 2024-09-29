@@ -14,10 +14,12 @@ class CreateGroupsTable extends Migration
     public function up()
     {
         Schema::create('groups', function (Blueprint $table) {
-            $table->id();
-        $table->string('name');
-        $table->text('description')->nullable();
-        $table->timestamps();
+            $table->id(); // Cria um BIGINT UNSIGNED como chave primária
+            $table->string('name');
+            $table->text('description')->nullable();
+            $table->timestamps();
+            $table->charset = 'latin1';
+            $table->collation = 'latin1_general_ci';
         });
     }
 

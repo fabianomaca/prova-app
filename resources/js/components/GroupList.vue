@@ -21,6 +21,9 @@
       <br />
       <div class="form-group">
       <button class="btn btn-primary" @click="goToRegisterGroup">Cadastrar Grupo</button>
+      <br />
+      <br />
+      <button class="btn btn-primary" @click="goToUsers">Voltar para Lista de Usuários</button>
     </div>
     </div>
   </template>
