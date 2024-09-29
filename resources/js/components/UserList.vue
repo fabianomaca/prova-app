@@ -16,11 +16,16 @@
           <td>{{ user.name }}</td>
           <td>{{ user.email }}</td>
           <td>
-            <!-- Botão para deletar o usuário -->
-            <button class="btn btn-danger" @click="deleteUser(user.id)">Deletar</button>
-            <button class="btn btn-primary" @click="editUser(user)">Edit</button>
-            <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal"
-              @click="viewUser(user.id)">View</button>
+    
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalEdit" @click="editUser(user)">
+              <i class="fas fa-edit"></i> 
+            </button>
+            <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modalView" @click="viewUser(user.id)">
+              <i class="fas fa-eye"></i>
+            </button>
+            <button class="btn btn-danger" @click="deleteUser(user.id)">
+              <i class="fas fa-trash-alt"></i>
+            </button>
           </td>
         </tr>
       </tbody>
@@ -28,14 +33,14 @@
     <br />
     <div class="form-group">
       <!-- Botão para cadastrar um novo usuário -->
-      <button class="btn btn-primary" @click="goToRegister">Cadastrar Novo Usuário</button>
+      <button class="btn btn-primary" @click="goToRegister"><i class="fas fa-plus"></i>Cadastrar Novo Usuário</button>
       <br />
       <br />
       <button class="btn btn-primary" @click="goToGroupList">Listar Grupo de Permissão</button>
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="modalView" tabindex="-1" aria-labelledby="modalViewLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -50,7 +55,7 @@
 
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fas fa-times"></i>Fechar</button>
           </div>
         </div>
       </div>
@@ -59,12 +64,11 @@
 
 
   <!-- Modal de Edição -->
-  <div v-if="selectedUser" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal fade" id="modalEdit" tabindex="-1" aria-labelledby="modalEditLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">Edit User</h5>
-          <button type="button" class="close" @click="selectedUser = null">&times;</button>
         </div>
         <div class="modal-body">
           <form @submit.prevent="saveUser">
@@ -77,12 +81,19 @@
               <input type="email" v-model="selectedUser.email" class="form-control" id="email" required>
             </div>
             <div class="form-group">
+              <label for="password">Senha</label>
+              <input type="password" v-model="selectedUser.password" class="form-control" id="password" required>
+            </div>
+            <div class="form-group">
               <label for="group">Group</label>
               <select v-model="selectedUser.permission_id" class="form-control" id="group" required>
                 <option v-for="group in groups" :value="group.id" :key="group.id">{{ group.name }}</option>
               </select>
             </div>
-            <button type="submit" class="btn btn-success">Save</button>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-success" data-bs-dismiss="modal"><i class="fas fa-save"></i>Salvar</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fas fa-times"></i>Fechar</button>
+            </div>
           </form>
         </div>
       </div>
@@ -115,7 +126,6 @@ export default {
         this.users = response.data;
       } catch (error) {
         alert('Erro ao criadar um usário!');
-        console.error('Erro ao buscar usuários:', error);
       }
     },
     async deleteUser(userId) {
@@ -137,6 +147,7 @@ export default {
       });
     },
     editUser(user) {
+
       this.selectedUser = { ...user };
     },
 
@@ -149,17 +160,18 @@ export default {
         this.selectedUser.name = response.data.name;
         this.selectedUser.email = response.data.email;
 
-         axios.get('/api/group/' + response.data.permission_group_id).then(response => {
+        axios.get('/api/group/' + response.data.permission_group_id).then(response => {
           console.log(response.data);
-        this.selectedUser.permission_id = response.data.name ;
+          this.selectedUser.permission_id = response.data.name;
+        });
       });
-    });
     },
 
     saveUser() {
-      axios.put(`/api/users/${this.selectedUser.id}`, this.selectedUser).then(response => {
+      axios.put('/api/users/'+this.selectedUser.id, this.selectedUser).then(response => {
+        console.log(response.data);
         this.fetchUsers();
-        this.selectedUser = null;
+        this.selectedUser = response.data;
       });
     },
 
