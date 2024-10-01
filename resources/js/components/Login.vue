@@ -1,31 +1,54 @@
 <template>
-    <div>
-      <h1>Login</h1>
+  <div>
+    <div class="container mt-5" id="app">
+
       <form @submit.prevent="login">
-        <input type="email" v-model="email" placeholder="Email" />
-        <input type="password" v-model="password" placeholder="Senha" />
-        <button type="submit">Entrar</button>
+        <div class="form-group">
+          <label>Email:</label>
+          <input type="email" v-model="email" class="form-control" required />
+        </div>
+        <div class="form-group">
+          <label>Senha:</label>
+          <input type="password" v-model="password" class="form-control" required />
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary">Entrar</button>
+        </div>
       </form>
+      <div v-if="errorMessage" class="alert alert-danger">
+        {{ errorMessage }}
+      </div>
     </div>
-  </template>
-  
-  <script>
-  export default {
-    data() {
-      return {
-        email: '',
-        password: ''
-      };
-    },
-    methods: {
-      async login() {
+  </div>
+</template>
+
+<script>
+import axios from 'axios';
+
+export default {
+  data() {
+    return {
+      email: '',
+      password: '',
+      errorMessage: null,
+    };
+  },
+  methods: {
+    async login() {
+      try {
         const response = await axios.post('/api/login', {
           email: this.email,
-          password: this.password
+          password: this.password,
         });
-        localStorage.setItem('token', response.data.access_token);
+      
+        const token = response.data.token;
+        localStorage.setItem('token', token); 
+        this.$router.push('/users');
+        
+      } catch (error) {
+        this.errorMessage = 'Login ou senha incorretos!';
       }
-    }
-  };
-  </script>
-  
+    },
+  },
+};
+</script>

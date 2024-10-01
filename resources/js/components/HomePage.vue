@@ -1,6 +1,6 @@
 <!-- resources/js/components/HomePage.vue -->
 <template>
-    <div class="home-container">
+    <div class="container mt-5" id="app">
         <h1>Bem-vindo à Home</h1>
         <p>Esta é a tela inicial de nosso sistema de gerenciamento de usuários.</p>
         <p>Prova App - Fabiano Carloto.</p>

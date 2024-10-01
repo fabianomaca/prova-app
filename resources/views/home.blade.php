@@ -17,7 +17,7 @@
         <p>Prova App - Fabiano Carloto.</p>
 
         <!-- Botão para ir para a página de listagem de usuários -->
-        <button class="btn btn-primary" @click="goToUsers">Ver Lista de Usuários</button>
+        <button class="btn btn-primary" @click="goToUsers">LOGIN</button>
     </div>
 
     <!-- Script para carregar o Vue -->

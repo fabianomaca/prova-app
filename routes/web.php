@@ -1,18 +1,23 @@
 <?php
-// routes/web.php
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 
 
 Route::get('/', function () {
     return view('home');
 });
 
+Route::get('/login', function () {
+    return view('login'); // Renderiza o arquivo login.blade.php
+});
+
+
 
 
 // Rota para a tela de listagem de usuários
 Route::get('/users', function () {
-    return view('users');
+   return view('users');
 });
 
 

@@ -16,9 +16,9 @@
           <td>{{ user.name }}</td>
           <td>{{ user.email }}</td>
           <td>
-    
+
             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalEdit" @click="editUser(user)">
-              <i class="fas fa-edit"></i> 
+              <i class="fas fa-edit"></i>
             </button>
             <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modalView" @click="viewUser(user.id)">
               <i class="fas fa-eye"></i>
@@ -55,7 +55,8 @@
 
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fas fa-times"></i>Fechar</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i
+                class="fas fa-times"></i>Fechar</button>
           </div>
         </div>
       </div>
@@ -91,8 +92,10 @@
               </select>
             </div>
             <div class="modal-footer">
-              <button type="submit" class="btn btn-success" data-bs-dismiss="modal"><i class="fas fa-save"></i>Salvar</button>
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fas fa-times"></i>Fechar</button>
+              <button type="submit" class="btn btn-success" data-bs-dismiss="modal"><i
+                  class="fas fa-save"></i>Salvar</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i
+                  class="fas fa-times"></i>Fechar</button>
             </div>
           </form>
         </div>
@@ -113,6 +116,7 @@ export default {
       groups: [],
       selectedUser: {},
       viewedUser: null,
+      errorMessage: '',
     };
   },
   mounted() {
@@ -122,10 +126,19 @@ export default {
   methods: {
     async fetchUsers() {
       try {
-        const response = await axios.get('/api/users');
+        const response = await axios.get('/api/users', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`, // Enviar token no cabeçalho
+          },
+        });
         this.users = response.data;
       } catch (error) {
-        alert('Erro ao criadar um usário!');
+        if (error.response && error.response.status === 401) { // Verifica se o status é 401
+          localStorage.removeItem('token'); // Remove o token inválido
+          this.$router.push({ name: 'Login' }); // Redireciona para a página de login
+        } else {
+          this.errorMessage = 'Ocorreu um erro ao carregar os usuários.';
+        }
       }
     },
     async deleteUser(userId) {
@@ -168,7 +181,7 @@ export default {
     },
 
     saveUser() {
-      axios.put('/api/users/'+this.selectedUser.id, this.selectedUser).then(response => {
+      axios.put('/api/users/' + this.selectedUser.id, this.selectedUser).then(response => {
         console.log(response.data);
         this.fetchUsers();
         this.selectedUser = response.data;
